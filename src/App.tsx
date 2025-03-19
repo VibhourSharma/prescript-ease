@@ -9,7 +9,6 @@ import Index from "./pages/Index";
 import Upload from "./pages/Upload";
 import Results from "./pages/Results";
 import NotFound from "./pages/NotFound";
-import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +23,6 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/results" element={<Results />} />
-            <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

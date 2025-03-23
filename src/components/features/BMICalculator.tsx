@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-// import { Slider } from "@/components/ui/slider";
 
 const BMICalculator: React.FC = () => {
   const [height, setHeight] = useState<number | "">("");
@@ -184,51 +183,26 @@ const BMICalculator: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-auto pt-4">
-                  <div className="px-6 pb-4">
-                    <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className="h-full transition-all duration-1000"
-                        style={{
-                          width: `${Math.min(100, (bmi / 40) * 100)}%`,
-                          backgroundColor: getBmiCategoryColor().replace(
-                            "bg-",
-                            ""
-                          ),
-                        }}
-                      ></div>
-                    </div>
-
-                    <div className="flex justify-between mt-1 text-xs text-muted-foreground">
-                      <span>16</span>
-                      <span>18.5</span>
-                      <span>25</span>
-                      <span>30</span>
-                      <span>40</span>
-                    </div>
-                  </div>
-
-                  <div className="bg-muted/30 p-4 text-sm">
-                    <p className="mb-2 font-medium">BMI Categories:</p>
-                    <ul className="space-y-1">
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-amber-400"></div>
-                        <span>Underweight: BMI less than 18.5</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        <span>Normal weight: BMI 18.5 to 24.9</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-                        <span>Overweight: BMI 25 to 29.9</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                        <span>Obesity: BMI 30 or higher</span>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="bg-muted/30 p-4 text-sm">
+                  <p className="mb-2 font-medium">BMI Categories:</p>
+                  <ul className="space-y-1">
+                    <li className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-amber-400"></div>
+                      <span>Underweight: BMI less than 18.5</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <span>Normal weight: BMI 18.5 to 24.9</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                      <span>Overweight: BMI 25 to 29.9</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                      <span>Obesity: BMI 30 or higher</span>
+                    </li>
+                  </ul>
                 </div>
               </>
             )}

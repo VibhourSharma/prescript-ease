@@ -1,17 +1,14 @@
+import React from "react";
+import { Upload, Search, FileCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-import React from 'react';
-import { Upload, Search, FileCheck } from 'lucide-react';
-import { cn } from '@/lib/utils';
-
-interface StepProps {
-  icon: React.ReactNode;
-  number: number;
-  title: string;
-  description: string;
-  isLast?: boolean;
-}
-
-const Step: React.FC<StepProps> = ({ icon, number, title, description, isLast }) => {
+const Step: React.FC<StepProps> = ({
+  icon,
+  number,
+  title,
+  description,
+  isLast,
+}) => {
   return (
     <div className="flex flex-col items-center text-center relative">
       <div className="relative">
@@ -27,7 +24,7 @@ const Step: React.FC<StepProps> = ({ icon, number, title, description, isLast })
         )}
       </div>
       <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 border border-primary/10 shadow-sm min-h-[200px] flex flex-col">
-        <div className="inline-block rounded-full bg-primary/10 w-8 h-8 flex items-center justify-center font-medium text-primary text-sm mb-4">
+        <div className="rounded-full bg-primary/10 w-8 h-8 flex items-center justify-center font-medium text-primary text-sm mb-4">
           {number}
         </div>
         <h3 className="text-lg font-semibold mb-2">{title}</h3>
@@ -42,17 +39,20 @@ const HowItWorks: React.FC = () => {
     {
       icon: <Upload className="h-6 w-6" />,
       title: "Upload Your Prescription",
-      description: "Snap a photo or upload an image of your prescription. Our system accepts various formats including JPG, PNG, and PDF.",
+      description:
+        "Snap a photo or upload an image of your prescription. Our system accepts various formats including JPG, PNG, and PDF.",
     },
     {
       icon: <Search className="h-6 w-6" />,
       title: "Automatic Decoding",
-      description: "Our advanced AI instantly processes the image, recognizing handwriting, medical terms, and prescription elements with high accuracy.",
+      description:
+        "Our advanced AI instantly processes the image, recognizing handwriting, medical terms, and prescription elements with high accuracy.",
     },
     {
       icon: <FileCheck className="h-6 w-6" />,
       title: "View Detailed Results",
-      description: "Get a complete breakdown of your prescription including medication names, dosages, usage instructions, and even potential drug interactions.",
+      description:
+        "Get a complete breakdown of your prescription including medication names, dosages, usage instructions, and even potential drug interactions.",
     },
   ];
 
@@ -64,10 +64,11 @@ const HowItWorks: React.FC = () => {
             Simple Process
           </span>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
-            How PreScriptEase Works
+            How The Platform Works
           </h2>
           <p className="text-lg text-muted-foreground">
-            Converting complex prescriptions into clear, understandable information in just three simple steps.
+            Converting complex prescriptions into clear, understandable
+            information in just three simple steps.
           </p>
         </div>
 

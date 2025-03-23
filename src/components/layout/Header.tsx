@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,9 +14,9 @@ const Header: React.FC = () => {
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -26,24 +25,24 @@ const Header: React.FC = () => {
   }, [location]);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'How It Works', path: '/#how-it-works' },
-    { name: 'About', path: '/about' },
-    { name: 'FAQ', path: '/faq' },
-    { name: 'Contact', path: '/contact' },
+    { name: "Home", path: "/" },
+    { name: "Features", path: "/features" },
+    { name: "About", path: "/about" },
+    { name: "FAQ", path: "/faq" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
-    <header 
+    <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4 px-4 sm:px-6 lg:px-8',
-        isScrolled ? 'glass shadow-sm' : 'bg-transparent'
+        "fixed top-0 left-0 right-0 z-[999] transition-all duration-300 ease-in-out py-4 px-4 sm:px-6 lg:px-8",
+        isScrolled ? "glass shadow-sm" : "bg-transparent"
       )}
     >
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="text-2xl font-bold text-primary transition-transform hover:scale-[1.02] duration-300"
             aria-label="PreScriptEase Home"
           >
@@ -58,8 +57,10 @@ const Header: React.FC = () => {
                 key={link.name}
                 to={link.path}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
-                  location.pathname === link.path ? 'text-primary' : 'text-foreground/80'
+                  "text-sm font-medium transition-colors hover:text-primary",
+                  location.pathname === link.path
+                    ? "text-primary"
+                    : "text-foreground/80"
                 )}
               >
                 {link.name}
@@ -94,8 +95,10 @@ const Header: React.FC = () => {
                   <Link
                     to={link.path}
                     className={cn(
-                      'block py-2 px-4 rounded-md text-sm font-medium transition-colors',
-                      location.pathname === link.path ? 'text-primary bg-primary/10' : 'text-foreground hover:bg-primary/5'
+                      "block py-2 px-4 rounded-md text-sm font-medium transition-colors",
+                      location.pathname === link.path
+                        ? "text-primary bg-primary/10"
+                        : "text-foreground hover:bg-primary/5"
                     )}
                   >
                     {link.name}

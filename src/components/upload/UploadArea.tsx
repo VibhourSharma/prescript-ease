@@ -1,11 +1,10 @@
-
-import React, { useState, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Upload, File, Image, FileText, X, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
-import { usePrescription } from '@/context/PrescriptionContext';
-import { cn } from '@/lib/utils';
+import React, { useState, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { Upload, File, Image, FileText, X, Loader } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { usePrescription } from "@/context/PrescriptionContext";
+import { cn } from "@/lib/utils";
 
 const UploadArea: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -29,29 +28,34 @@ const UploadArea: React.FC = () => {
   const onDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFile(e.dataTransfer.files[0]);
     }
   }, []);
 
   const handleFile = (file: File) => {
-    const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+    const validTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "application/pdf",
+    ];
     const maxSize = 10 * 1024 * 1024; // 10MB
-    
+
     if (!validTypes.includes(file.type)) {
-      toast.error('Invalid file type. Please upload a JPG, PNG, or PDF file.');
+      toast.error("Invalid file type. Please upload a JPG, PNG, or PDF file.");
       return;
     }
-    
+
     if (file.size > maxSize) {
-      toast.error('File is too large. Maximum size is 10MB.');
+      toast.error("File is too large. Maximum size is 10MB.");
       return;
     }
-    
+
     setFile(file);
-    
-    if (file.type.startsWith('image/')) {
+
+    if (file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setFilePreview(e.target?.result as string);
@@ -76,19 +80,19 @@ const UploadArea: React.FC = () => {
     setFile(null);
     setFilePreview(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
   const getFileIcon = () => {
     if (!file) return null;
-    
+
     switch (file.type) {
-      case 'image/jpeg':
-      case 'image/png':
-      case 'image/jpg':
+      case "image/jpeg":
+      case "image/png":
+      case "image/jpg":
         return <Image className="h-6 w-6 text-blue-500" />;
-      case 'application/pdf':
+      case "application/pdf":
         return <FileText className="h-6 w-6 text-red-500" />;
       default:
         return <File className="h-6 w-6 text-gray-500" />;
@@ -97,13 +101,13 @@ const UploadArea: React.FC = () => {
 
   const handleProcessFile = async () => {
     if (!file) return;
-    
+
     setIsUploading(true);
-    
+
     try {
       // Simulate API call with timeout
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       // In a real app, you would send the file to your backend here
       // const formData = new FormData();
       // formData.append('file', file);
@@ -112,7 +116,7 @@ const UploadArea: React.FC = () => {
       //   body: formData,
       // });
       // const data = await response.json();
-      
+
       // Mock prescription data for demo
       const mockData = {
         medicines: [
@@ -126,8 +130,8 @@ const UploadArea: React.FC = () => {
               purpose: "Antibiotic for treating bacterial infections",
               sideEffects: "Nausea, vomiting, diarrhea, rash",
               warnings: "May cause allergic reactions in some patients",
-              alternatives: ["Azithromycin", "Clarithromycin"]
-            }
+              alternatives: ["Azithromycin", "Clarithromycin"],
+            },
           },
           {
             name: "Ibuprofen",
@@ -136,11 +140,13 @@ const UploadArea: React.FC = () => {
             duration: "5 days",
             notes: "For pain and inflammation",
             details: {
-              purpose: "Non-steroidal anti-inflammatory drug (NSAID) for pain relief",
+              purpose:
+                "Non-steroidal anti-inflammatory drug (NSAID) for pain relief",
               sideEffects: "Stomach upset, heartburn, dizziness",
-              warnings: "Not recommended for patients with certain heart conditions",
-              alternatives: ["Acetaminophen", "Naproxen"]
-            }
+              warnings:
+                "Not recommended for patients with certain heart conditions",
+              alternatives: ["Acetaminophen", "Naproxen"],
+            },
           },
           {
             name: "Loratadine",
@@ -152,26 +158,30 @@ const UploadArea: React.FC = () => {
               purpose: "Antihistamine for allergy symptoms",
               sideEffects: "Drowsiness, dry mouth, headache",
               warnings: "May cause drowsiness in some patients",
-              alternatives: ["Cetirizine", "Fexofenadine"]
-            }
-          }
+              alternatives: ["Cetirizine", "Fexofenadine"],
+            },
+          },
         ],
         diagnosis: "Upper respiratory infection with allergic rhinitis",
         accuracy: 95,
-        issues: ["Some dosage instructions might be unclear", "Check with pharmacist about interactions"],
-        rawText: "Rx\n1. Amoxicillin 500mg - 1 tablet three times daily for 7 days\n2. Ibuprofen 400mg - 1 tablet every 6 hours as needed for 5 days\n3. Loratadine 10mg - 1 tablet daily in the morning as needed\n\nDiagnosis: Upper respiratory infection with allergic rhinitis\nReturn if symptoms worsen or do not improve in 5 days.\n\nDr. Smith"
+        issues: [
+          "Some dosage instructions might be unclear",
+          "Check with pharmacist about interactions",
+        ],
+        rawText:
+          "Rx\n1. Amoxicillin 500mg - 1 tablet three times daily for 7 days\n2. Ibuprofen 400mg - 1 tablet every 6 hours as needed for 5 days\n3. Loratadine 10mg - 1 tablet daily in the morning as needed\n\nDiagnosis: Upper respiratory infection with allergic rhinitis\nReturn if symptoms worsen or do not improve in 5 days.\n\nDr. Smith",
       };
-      
+
       // Save the data to context
       setPrescriptionData(mockData);
-      
-      toast.success('Prescription uploaded successfully!');
-      
+
+      toast.success("Prescription uploaded successfully!");
+
       // Navigate to results page
-      navigate('/results');
+      navigate("/results");
     } catch (error) {
-      console.error('Error processing file:', error);
-      toast.error('Error processing prescription. Please try again.');
+      console.error("Error processing file:", error);
+      toast.error("Error processing prescription. Please try again.");
     } finally {
       setIsUploading(false);
     }
@@ -187,11 +197,13 @@ const UploadArea: React.FC = () => {
         className="hidden"
         aria-label="Upload prescription file"
       />
-      
+
       <div
         className={cn(
           "border-2 border-dashed rounded-xl p-10 transition-all duration-300 text-center",
-          isDragging ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
+          isDragging
+            ? "border-primary bg-primary/5"
+            : "border-border hover:border-primary/50",
           file ? "bg-secondary/30" : "bg-transparent"
         )}
         onDragOver={onDragOver}
@@ -204,11 +216,17 @@ const UploadArea: React.FC = () => {
               <Upload className="h-8 w-8 text-primary animate-bounce-slow" />
             </div>
             <div>
-              <h3 className="text-lg font-medium mb-1">Upload your prescription</h3>
+              <h3 className="text-lg font-medium mb-1">
+                Upload your prescription
+              </h3>
               <p className="text-muted-foreground text-sm mb-4">
                 Drag and drop your file here, or click to browse
               </p>
-              <Button onClick={triggerFileInput} variant="outline" className="mx-auto">
+              <Button
+                onClick={triggerFileInput}
+                variant="outline"
+                className="mx-auto"
+              >
                 Browse Files
               </Button>
             </div>
@@ -240,42 +258,38 @@ const UploadArea: React.FC = () => {
                 <X className="h-4 w-4" />
               </button>
             </div>
-            
+
             <div>
               <p className="font-medium text-sm mb-1">{file.name}</p>
               <p className="text-xs text-muted-foreground mb-4">
                 {(file.size / 1024).toFixed(2)} KB • {file.type}
               </p>
-              
-              <Button 
-                onClick={handleProcessFile} 
+
+              <Button
+                onClick={handleProcessFile}
                 disabled={isUploading}
                 className="mx-auto"
               >
                 {isUploading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
                     Processing...
                   </>
                 ) : (
-                  'Process Prescription'
+                  "Process Prescription"
                 )}
               </Button>
             </div>
+            {isUploading && (
+              <div className="mt-8 text-center">
+                <p className="text-sm text-muted-foreground animate-pulse">
+                  Analyzing your prescription... This may take a few moments.
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
-      
-      {isUploading && (
-        <div className="mt-8 text-center">
-          <div className="w-full bg-secondary rounded-full h-1.5 mb-4 overflow-hidden">
-            <div className="bg-primary h-1.5 animate-pulse-light" style={{width: '70%'}}></div>
-          </div>
-          <p className="text-sm text-muted-foreground animate-pulse-light">
-            Analyzing your prescription... This may take a few moments.
-          </p>
-        </div>
-      )}
     </div>
   );
 };

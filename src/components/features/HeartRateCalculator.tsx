@@ -5,15 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Heart } from "lucide-react";
 
-interface HeartRateZone {
-  name: string;
-  intensity: string;
-  min: number;
-  max: number;
-  description: string;
-  color: string;
-}
-
 const HeartRateCalculator: React.FC = () => {
   const [age, setAge] = useState<number | "">("");
   const [restingHR, setRestingHR] = useState<number | "">("");

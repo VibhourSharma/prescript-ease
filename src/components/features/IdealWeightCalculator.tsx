@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/select";
 import { Scale } from "lucide-react";
 
-type FrameSize = "small" | "medium" | "large";
-
 const IdealWeightCalculator: React.FC = () => {
   const [height, setHeight] = useState<number | "">("");
   const [gender, setGender] = useState<string>("male");

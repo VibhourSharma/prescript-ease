@@ -20,15 +20,6 @@ import {
 import { Calendar as CalendarIcon, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface AgeResult {
-  years: number;
-  months: number;
-  days: number;
-  totalDays: number;
-  nextBirthday: Date;
-  daysUntilNextBirthday: number;
-}
-
 const AgeCalculator: React.FC = () => {
   const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
   const [age, setAge] = useState<AgeResult | null>(null);

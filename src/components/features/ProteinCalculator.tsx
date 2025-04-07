@@ -12,15 +12,6 @@ import {
 } from "@/components/ui/select";
 import { Apple, Sandwich, Coffee, Beef, Fish, Egg } from "lucide-react";
 
-type ActivityLevel = "sedentary" | "active" | "athlete";
-
-interface ProteinSource {
-  name: string;
-  amount: string;
-  protein: number;
-  icon: React.ReactNode;
-}
-
 const ProteinCalculator: React.FC = () => {
   const [weight, setWeight] = useState<number | "">("");
   const [activityLevel, setActivityLevel] = useState<ActivityLevel>("active");

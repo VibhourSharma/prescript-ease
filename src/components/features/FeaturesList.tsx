@@ -42,19 +42,6 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-type Feature = {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ElementType;
-  component: React.ReactNode;
-  status: "available" | "coming-soon";
-};
-
-interface FeaturesListProps {
-  isMobile?: boolean;
-}
-
 const FeaturesList: React.FC<FeaturesListProps> = ({ isMobile }) => {
   const [activeFeature, setActiveFeature] = useState<string>("bmi-calculator");
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

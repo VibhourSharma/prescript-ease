@@ -80,3 +80,11 @@ declare type ProteinSource = {
     protein: number;
     icon: React.ReactNode;
 }
+
+declare type Medicine = {
+    name: string;
+    usage: string;
+    alternatives: string[];
+    sideEffects: string[];
+    safeForPregnancy: boolean;
+}

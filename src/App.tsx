@@ -9,6 +9,7 @@ import Upload from "./pages/Upload";
 import Results from "./pages/Results";
 import NotFound from "./pages/NotFound";
 import Features from "./pages/Features";
+import MedicineSearch from "./pages/medicines/MedicineSearch";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/results" element={<Results />} />
             <Route path="/features" element={<Features />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/medicines" element={<MedicineSearch />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

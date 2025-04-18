@@ -122,14 +122,11 @@ const UploadArea: React.FC = () => {
         medicines: [
           {
             name: "Amoxicillin",
-            dosage: "500mg",
-            frequency: "3 times a day",
-            duration: "7 days",
-            notes: "Take with food",
             details: {
               purpose: "Antibiotic for treating bacterial infections",
               sideEffects: "Nausea, vomiting, diarrhea, rash",
-              warnings: "May cause allergic reactions in some patients",
+              warnings:
+                "May cause allergic reactions in some patients, may not be effective in some cases, may not be effective in some cases",
               alternatives: ["Azithromycin", "Clarithromycin"],
             },
           },

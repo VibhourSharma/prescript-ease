@@ -1,6 +1,4 @@
-import React from "react";
 import { Upload, Search, FileCheck } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const Step: React.FC<StepProps> = ({
   icon,

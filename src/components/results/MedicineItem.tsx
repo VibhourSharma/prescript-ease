@@ -3,8 +3,7 @@ import {
   ChevronDown,
   ChevronUp,
   Copy,
-  AlertCircle,
-  Pill,
+  ClipboardPlus,
   Check,
   RefreshCw,
 } from "lucide-react";
@@ -19,7 +18,6 @@ const MedicineItem: React.FC<MedicineItemProps> = ({ medicine }) => {
 
   const toggleOpen = () => {
     if (!isOpen && !medicine.details) {
-      // Simulate loading details if they don't exist
       setIsDetailsLoading(true);
       setTimeout(() => {
         setIsDetailsLoading(false);
@@ -31,12 +29,12 @@ const MedicineItem: React.FC<MedicineItemProps> = ({ medicine }) => {
   };
 
   const copyMedicineDetails = () => {
-    const details = `${medicine.name} - ${medicine.dosage}\nFrequency: ${medicine.frequency}\nDuration: ${medicine.duration}\nNotes: ${medicine.notes}`;
+    const details = medicine.name;
 
     navigator.clipboard
       .writeText(details)
       .then(() => {
-        toast.success("Medicine details copied to clipboard");
+        toast.success("Medicine name copied to clipboard");
       })
       .catch(() => {
         toast.error("Failed to copy details");
@@ -59,12 +57,12 @@ const MedicineItem: React.FC<MedicineItemProps> = ({ medicine }) => {
       >
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-            <Pill className="h-5 w-5" />
+            <ClipboardPlus className="h-5 w-5" />
           </div>
           <div>
             <h3 className="font-medium text-lg">{medicine.name}</h3>
             <p className="text-sm text-muted-foreground">
-              {medicine.dosage} - {medicine.frequency}
+              Click on each medicine to view detailed information.
             </p>
           </div>
         </div>
@@ -96,73 +94,51 @@ const MedicineItem: React.FC<MedicineItemProps> = ({ medicine }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-2">
-                Details
-              </h4>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-2">
-                  <div className="bg-primary/10 rounded-full p-1 mt-0.5">
-                    <Check className="h-3 w-3 text-primary" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Dosage:</span>
-                    <span className="text-sm ml-1">{medicine.dosage}</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="bg-primary/10 rounded-full p-1 mt-0.5">
-                    <Check className="h-3 w-3 text-primary" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Frequency:</span>
-                    <span className="text-sm ml-1">{medicine.frequency}</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="bg-primary/10 rounded-full p-1 mt-0.5">
-                    <Check className="h-3 w-3 text-primary" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Duration:</span>
-                    <span className="text-sm ml-1">{medicine.duration}</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="bg-primary/10 rounded-full p-1 mt-0.5">
-                    <Check className="h-3 w-3 text-primary" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Notes:</span>
-                    <span className="text-sm ml-1">{medicine.notes}</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-medium text-muted-foreground mb-2">
                 Information
               </h4>
 
               <div className="space-y-3">
-                <div>
-                  <h5 className="text-sm font-medium">Purpose</h5>
-                  <p className="text-sm text-muted-foreground">
-                    {medicine.details.purpose}
-                  </p>
+                <div className="flex items-start gap-2">
+                  <div>
+                    <Check className="h-4 w-4 text-blue-500 shrink-0 mt-0.5 bg-blue-100 rounded-full p-0.5" />
+                  </div>
+                  <div>
+                    <h5 className="text-sm font-medium">Purpose</h5>
+                    <p className="text-sm text-muted-foreground">
+                      {medicine.details.purpose}
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <h5 className="text-sm font-medium">Possible Side Effects</h5>
-                  <p className="text-sm text-muted-foreground">
-                    {medicine.details.sideEffects}
-                  </p>
+                <div className="flex items-start gap-2">
+                  <div>
+                    <Check className="h-4 w-4 text-blue-500 shrink-0 mt-0.5 bg-blue-100 rounded-full p-0.5" />
+                  </div>
+                  <div>
+                    <h5 className="text-sm font-medium">
+                      Possible Side Effects
+                    </h5>
+                    <p className="text-sm text-muted-foreground">
+                      {medicine.details.sideEffects}
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <h5 className="text-sm font-medium">Warnings</h5>
-                  <p className="text-sm text-muted-foreground">
-                    {medicine.details.warnings}
-                  </p>
+                <div className="flex items-start gap-2">
+                  <div>
+                    <Check className="h-4 w-4 text-blue-500 shrink-0 mt-0.5 bg-blue-100 rounded-full p-0.5" />
+                  </div>
+                  <div>
+                    <h5 className="text-sm font-medium">Warnings</h5>
+                    <p className="text-sm text-muted-foreground">
+                      {medicine.details.warnings.split("\n").map((line, i) => (
+                        <React.Fragment key={i}>
+                          {line}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -183,15 +159,6 @@ const MedicineItem: React.FC<MedicineItemProps> = ({ medicine }) => {
                   {alt}
                 </span>
               ))}
-            </div>
-          </div>
-
-          <div className="mt-4 flex items-center gap-2 bg-yellow-50 border border-yellow-200 p-3 rounded-md">
-            <AlertCircle className="h-5 w-5 text-yellow-500 shrink-0 mt-0.5" />
-            <div className="text-xs text-yellow-800">
-              This information is for educational purposes only. Always consult
-              your doctor or pharmacist for specific advice about your
-              medication.
             </div>
           </div>
         </div>

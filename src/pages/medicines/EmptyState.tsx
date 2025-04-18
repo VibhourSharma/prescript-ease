@@ -1,7 +1,6 @@
-import React from "react";
-import { Pill, Search } from "lucide-react";
+import { Pill } from "lucide-react";
 
-const EmptyState: React.FC<{ hasSearched: boolean }> = ({ hasSearched }) => {
+const EmptyState = ({ hasSearched }: { hasSearched: boolean }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center">
       {hasSearched ? (
@@ -15,7 +14,10 @@ const EmptyState: React.FC<{ hasSearched: boolean }> = ({ hasSearched }) => {
         </>
       ) : (
         <>
-          <Search className="h-12 w-12 text-muted-foreground mb-4" />
+          <img
+            src="/search.gif"
+            className="h-12 w-12 text-muted-foreground mb-4"
+          />
           <h3 className="text-lg font-semibold mb-2">Search for a Medicine</h3>
           <p className="text-muted-foreground max-w-sm">
             Enter a medicine name to get detailed information about its usage,

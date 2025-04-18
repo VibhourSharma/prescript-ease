@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import {
-  Check,
   AlertTriangle,
   Download,
-  Copy,
   Printer,
   ArrowLeft,
+  AlertCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -50,18 +48,6 @@ const ResultsView: React.FC = () => {
 
   const { medicines, diagnosis, accuracy, issues, rawText } = prescriptionData;
 
-  const copyToClipboard = (text: string, label: string) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        toast.success(`${label} copied to clipboard`);
-      })
-      .catch((err) => {
-        console.error("Error copying text: ", err);
-        toast.error("Failed to copy text");
-      });
-  };
-
   const downloadResults = () => {
     const element = document.createElement("a");
 
@@ -69,13 +55,6 @@ const ResultsView: React.FC = () => {
     let content = `PRESCRIPTION RESULTS\n\n`;
     content += `Diagnosis: ${diagnosis}\n\n`;
     content += `MEDICINES:\n`;
-
-    medicines.forEach((med, index) => {
-      content += `${index + 1}. ${med.name} - ${med.dosage}\n`;
-      content += `   Frequency: ${med.frequency}\n`;
-      content += `   Duration: ${med.duration}\n`;
-      content += `   Notes: ${med.notes}\n\n`;
-    });
 
     content += `\nRaw Prescription Text:\n${rawText}\n`;
 
@@ -112,15 +91,6 @@ const ResultsView: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => copyToClipboard(rawText, "Raw text")}
-            className="gap-1"
-          >
-            <Copy className="h-4 w-4" />
-            <span className="hidden sm:inline">Copy Text</span>
-          </Button>
           <Button
             variant="outline"
             size="sm"
@@ -216,59 +186,14 @@ const ResultsView: React.FC = () => {
               </Card>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">Summary</CardTitle>
-                <CardDescription>
-                  Key information from your prescription
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-2">
-                      Medicines ({medicines.length})
-                    </h4>
-                    <ul className="space-y-2">
-                      {medicines.map((medicine, index) => (
-                        <li key={index} className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span>
-                            <span className="font-medium">{medicine.name}</span>{" "}
-                            - {medicine.dosage}, {medicine.frequency}
-                          </span>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6"
-                            onClick={() =>
-                              copyToClipboard(
-                                `${medicine.name} - ${medicine.dosage}, ${medicine.frequency}, ${medicine.duration}. ${medicine.notes}`,
-                                "Medicine details"
-                              )
-                            }
-                          >
-                            <Copy className="h-3 w-3" />
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Alert>
-              <AlertTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4" />
-                Important Notice
-              </AlertTitle>
-              <AlertDescription>
-                This analysis is provided for informational purposes only and
-                should not replace professional medical advice. Always consult
-                with your healthcare provider.
-              </AlertDescription>
-            </Alert>
+            <div className="mt-4 flex items-center gap-2 bg-yellow-50 border border-yellow-200 p-3 rounded-md">
+              <AlertCircle className="h-5 w-5 text-yellow-500 shrink-0 mt-0.5" />
+              <div className="text-xs text-yellow-800">
+                This information is for educational purposes only. Always
+                consult your doctor or pharmacist for specific advice about your
+                medication.
+              </div>
+            </div>
           </div>
         </TabsContent>
 
@@ -277,7 +202,8 @@ const ResultsView: React.FC = () => {
             <div className="bg-secondary/50 rounded-lg p-4">
               <h3 className="font-medium mb-2">Prescribed Medicines</h3>
               <p className="text-sm text-muted-foreground">
-                Click on each medicine to view detailed information.
+                A tentative interpretation of the medicines mentioned in the
+                prescription.
               </p>
             </div>
 
@@ -294,7 +220,7 @@ const ResultsView: React.FC = () => {
             <CardHeader>
               <CardTitle className="text-xl">Raw Prescription Text</CardTitle>
               <CardDescription>
-                The exact text extracted from your prescription
+                Estimated text extracted from your prescription
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -302,15 +228,6 @@ const ResultsView: React.FC = () => {
                 <pre className="bg-secondary/50 p-4 rounded-lg whitespace-pre-wrap text-sm font-mono overflow-x-auto">
                   {rawText}
                 </pre>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="absolute top-2 right-2"
-                  onClick={() => copyToClipboard(rawText, "Raw text")}
-                >
-                  <Copy className="h-4 w-4 mr-1" />
-                  Copy
-                </Button>
               </div>
             </CardContent>
           </Card>

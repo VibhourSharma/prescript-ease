@@ -8,10 +8,6 @@ declare type StepProps = {
 
 declare type Medicine = {
     name: string;
-    dosage: string;
-    frequency: string;
-    duration: string;
-    notes: string;
     details: {
         purpose: string;
         sideEffects: string;
@@ -83,7 +79,6 @@ declare type ProteinSource = {
 
 declare type Medicine = {
     name: string;
-    usage: string;
     alternatives: string[];
     sideEffects: string[];
     safeForPregnancy: boolean;

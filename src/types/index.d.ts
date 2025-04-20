@@ -77,9 +77,13 @@ declare type ProteinSource = {
     icon: React.ReactNode;
 }
 
-declare type Medicine = {
-    name: string;
-    alternatives: string[];
-    sideEffects: string[];
-    safeForPregnancy: boolean;
+declare type MedicineDetailsProps = {
+    medicine: {
+        name: string;
+        dontUse: string;
+        dosage: string;
+        usage: string;
+        sideEffects: string;
+        pregnancyInfo: string;
+    }
 }

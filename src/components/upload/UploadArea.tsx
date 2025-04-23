@@ -1,12 +1,13 @@
-import React, { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Upload, File, Image, FileText, X, Loader } from "lucide-react";
+import { Upload, Image, X, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { usePrescription } from "@/context/PrescriptionContext";
 import { cn } from "@/lib/utils";
 
 const UploadArea: React.FC = () => {
+  // State variables
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
@@ -15,6 +16,7 @@ const UploadArea: React.FC = () => {
   const navigate = useNavigate();
   const { setPrescriptionData } = usePrescription();
 
+  // Handle drag events
   const onDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -34,48 +36,48 @@ const UploadArea: React.FC = () => {
     }
   }, []);
 
+  // Check if file is valid and set it to state
   const handleFile = (file: File) => {
-    const validTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/jpg",
-      "application/pdf",
-    ];
+    // Only accept image files (removed PDF)
+    const validTypes = ["image/jpeg", "image/png", "image/jpg"];
     const maxSize = 10 * 1024 * 1024; // 10MB
 
+    // Check if file type is valid
     if (!validTypes.includes(file.type)) {
-      toast.error("Invalid file type. Please upload a JPG, PNG, or PDF file.");
+      toast.error("Invalid file type. Please upload a JPG or PNG file only.");
       return;
     }
 
+    // Check if file size is valid
     if (file.size > maxSize) {
       toast.error("File is too large. Maximum size is 10MB.");
       return;
     }
 
+    // Set file and create preview
     setFile(file);
 
-    if (file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setFilePreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setFilePreview(null);
-    }
+    // Create image preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setFilePreview(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
+  // Handle file input change
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       handleFile(e.target.files[0]);
     }
   };
 
+  // Open file browser
   const triggerFileInput = () => {
     fileInputRef.current?.click();
   };
 
+  // Remove selected file
   const removeFile = () => {
     setFile(null);
     setFilePreview(null);
@@ -84,117 +86,107 @@ const UploadArea: React.FC = () => {
     }
   };
 
-  const getFileIcon = () => {
-    if (!file) return null;
-
-    switch (file.type) {
-      case "image/jpeg":
-      case "image/png":
-      case "image/jpg":
-        return <Image className="h-6 w-6 text-blue-500" />;
-      case "application/pdf":
-        return <FileText className="h-6 w-6 text-red-500" />;
-      default:
-        return <File className="h-6 w-6 text-gray-500" />;
-    }
-  };
-
+  // Process the prescription image
   const handleProcessFile = async () => {
     if (!file) return;
 
     setIsUploading(true);
 
     try {
-      // Simulate API call with timeout
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Step 1: Send the image to AI for analysis
+      const response = await puter.ai.chat(
+        "Analyze this prescription image and extract medicine names, dosage, frequency, and other details. " +
+          "Based on the medicines, suggest a possible diagnosis. " +
+          "List any issues you encountered when analyzing the prescription (like unclear handwriting, incomplete information, etc). " +
+          "Respond in JSON format with this structure: " +
+          "{ " +
+          '  "medicines": [{ "name": "MedicineName", "dosage": "Dosage", "frequency": "Frequency", "duration": "Duration", "notes": "Notes", ' +
+          '    "details": { "purpose": "Purpose", "sideEffects": "Side effects", "warnings": "Warnings", "alternatives": ["Alt1", "Alt2"] } ' +
+          "  }], " +
+          '  "estimatedDiagnosis": "Diagnosis based on medicines", ' +
+          '  "accuracy": prescription medicines accuracy score out of 100 where 100 being most and 0.1 being least accurate, ' +
+          '  "issues": ["Issue with prescription clarity", "Missing information"], ' +
+          '  "rawText": "Raw prescription text" ' +
+          "}",
+        file
+      );
 
-      // In a real app, you would send the file to your backend here
-      // const formData = new FormData();
-      // formData.append('file', file);
-      // const response = await fetch('/api/decode-prescription', {
-      //   method: 'POST',
-      //   body: formData,
-      // });
-      // const data = await response.json();
+      // Step 2: Get the content from the response
+      let jsonContent = response.message?.content || "";
 
-      // Mock prescription data for demo
-      const mockData = {
-        medicines: [
-          {
-            name: "Amoxicillin",
-            details: {
-              purpose: "Antibiotic for treating bacterial infections",
-              sideEffects: "Nausea, vomiting, diarrhea, rash",
-              warnings:
-                "May cause allergic reactions in some patients, may not be effective in some cases, may not be effective in some cases",
-              alternatives: ["Azithromycin", "Clarithromycin"],
-            },
-          },
-          {
-            name: "Ibuprofen",
-            dosage: "400mg",
-            frequency: "Every 6 hours as needed",
-            duration: "5 days",
-            notes: "For pain and inflammation",
-            details: {
-              purpose:
-                "Non-steroidal anti-inflammatory drug (NSAID) for pain relief",
-              sideEffects: "Stomach upset, heartburn, dizziness",
-              warnings:
-                "Not recommended for patients with certain heart conditions",
-              alternatives: ["Acetaminophen", "Naproxen"],
-            },
-          },
-          {
-            name: "Loratadine",
-            dosage: "10mg",
-            frequency: "Once daily",
-            duration: "As needed",
-            notes: "Take in the morning",
-            details: {
-              purpose: "Antihistamine for allergy symptoms",
-              sideEffects: "Drowsiness, dry mouth, headache",
-              warnings: "May cause drowsiness in some patients",
-              alternatives: ["Cetirizine", "Fexofenadine"],
-            },
-          },
-        ],
-        diagnosis: "Upper respiratory infection with allergic rhinitis",
-        accuracy: 95,
-        issues: [
-          "Some dosage instructions might be unclear",
-          "Check with pharmacist about interactions",
-        ],
+      // Step 3: Clean up the response (remove code blocks)
+      jsonContent = jsonContent.replace(/```json\n|\n```|```/g, "");
+
+      // Step 4: Parse the JSON
+      let prescriptionData;
+      try {
+        prescriptionData = JSON.parse(jsonContent);
+      } catch (error) {
+        console.error("Failed to parse response:", error);
+        toast.error("Failed to analyze prescription. Please try again.");
+        setIsUploading(false);
+        return;
+      }
+
+      // Step 5: Set default values if anything is missing
+      const finalData: PrescriptionData = {
+        medicines: Array.isArray(prescriptionData.medicines)
+          ? prescriptionData.medicines
+          : [],
+        estimatedDiagnosis:
+          prescriptionData.estimatedDiagnosis || "Unknown diagnosis",
+        accuracy: prescriptionData.accuracy || 0.1,
+        issues: Array.isArray(prescriptionData.issues)
+          ? prescriptionData.issues
+          : ["Could not identify clear issues"],
         rawText:
-          "Rx\n1. Amoxicillin 500mg - 1 tablet three times daily for 7 days\n2. Ibuprofen 400mg - 1 tablet every 6 hours as needed for 5 days\n3. Loratadine 10mg - 1 tablet daily in the morning as needed\n\nDiagnosis: Upper respiratory infection with allergic rhinitis\nReturn if symptoms worsen or do not improve in 5 days.\n\nDr. Smith",
+          prescriptionData.rawText ||
+          "Prescription text could not be extracted",
       };
 
-      // Save the data to context
-      setPrescriptionData(mockData);
+      // Step 6: If no diagnosis was provided, try to generate one based on medicines
+      if (
+        finalData.estimatedDiagnosis === "Unknown diagnosis" &&
+        finalData.medicines.length > 0
+      ) {
+        const medicineNames = finalData.medicines.map((m) => m.name).join(", ");
+        finalData.estimatedDiagnosis = `Potential condition based on ${medicineNames}`;
+      }
 
-      toast.success("Prescription uploaded successfully!");
+      // Step 7: Save the processed data
+      setPrescriptionData(finalData);
 
-      // Navigate to results page
+      // Step 8: Show success message and navigate to results page
+      toast.success("Prescription analyzed successfully!");
       navigate("/results");
     } catch (error) {
-      console.error("Error processing file:", error);
-      toast.error("Error processing prescription. Please try again.");
+      console.error("Error analyzing prescription:", error);
+      toast.error("Error analyzing prescription.");
     } finally {
       setIsUploading(false);
     }
   };
 
+  // Get icon for file type
+  const getFileIcon = () => {
+    if (!file) return null;
+
+    return <Image className="h-6 w-6 text-blue-500" />;
+  };
+
   return (
     <div className="max-w-3xl mx-auto w-full">
+      {/* Hidden file input */}
       <input
         type="file"
         ref={fileInputRef}
         onChange={handleFileInputChange}
-        accept="image/jpeg,image/png,image/jpg,application/pdf"
+        accept="image/jpeg,image/png,image/jpg"
         className="hidden"
         aria-label="Upload prescription file"
       />
 
+      {/* Drop zone area */}
       <div
         className={cn(
           "border-2 border-dashed rounded-xl p-10 transition-all duration-300 text-center",
@@ -208,6 +200,7 @@ const UploadArea: React.FC = () => {
         onDrop={onDrop}
       >
         {!file ? (
+          // Empty state - show upload UI
           <div className="space-y-4">
             <div className="w-20 h-20 bg-primary/10 rounded-full mx-auto flex items-center justify-center">
               <Upload className="h-8 w-8 text-primary animate-bounce-slow" />
@@ -228,11 +221,13 @@ const UploadArea: React.FC = () => {
               </Button>
             </div>
             <p className="text-xs text-muted-foreground">
-              Supported formats: JPG, PNG, PDF (Max size: 10MB)
+              Supported formats: JPG, PNG (Max size: 10MB)
             </p>
           </div>
         ) : (
+          // File selected state
           <div className="space-y-6">
+            {/* File preview */}
             <div className="relative">
               {filePreview ? (
                 <div className="relative w-40 h-40 mx-auto overflow-hidden rounded-lg shadow-sm border border-border">
@@ -247,6 +242,7 @@ const UploadArea: React.FC = () => {
                   {getFileIcon()}
                 </div>
               )}
+              {/* Remove button */}
               <button
                 onClick={removeFile}
                 className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 hover:bg-destructive/90 transition-colors"
@@ -256,6 +252,7 @@ const UploadArea: React.FC = () => {
               </button>
             </div>
 
+            {/* File info and process button */}
             <div>
               <p className="font-medium text-sm mb-1">{file.name}</p>
               <p className="text-xs text-muted-foreground mb-4">
@@ -277,6 +274,8 @@ const UploadArea: React.FC = () => {
                 )}
               </Button>
             </div>
+
+            {/* Loading message */}
             {isUploading && (
               <div className="mt-8 text-center">
                 <p className="text-sm text-muted-foreground animate-pulse">

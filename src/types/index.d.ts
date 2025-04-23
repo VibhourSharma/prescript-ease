@@ -18,7 +18,7 @@ declare type Medicine = {
 
 declare type PrescriptionData = {
     medicines: Medicine[];
-    diagnosis: string;
+    estimatedDiagnosis: string;
     accuracy: number;
     issues: string[];
     rawText: string;

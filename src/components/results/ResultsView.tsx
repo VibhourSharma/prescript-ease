@@ -24,6 +24,7 @@ import MedicineItem from "./MedicineItem";
 
 const ResultsView: React.FC = () => {
   const { prescriptionData } = usePrescription();
+  console.log("prescriptionData", prescriptionData);
   const [activeTab, setActiveTab] = useState("overview");
 
   if (!prescriptionData) {
@@ -46,14 +47,15 @@ const ResultsView: React.FC = () => {
     );
   }
 
-  const { medicines, diagnosis, accuracy, issues, rawText } = prescriptionData;
+  const { medicines, estimatedDiagnosis, accuracy, issues, rawText } =
+    prescriptionData;
 
   const downloadResults = () => {
     const element = document.createElement("a");
 
     // Create a simple text version of the results
     let content = `PRESCRIPTION RESULTS\n\n`;
-    content += `Diagnosis: ${diagnosis}\n\n`;
+    content += `Diagnosis: ${estimatedDiagnosis}\n\n`;
     content += `MEDICINES:\n`;
 
     content += `\nRaw Prescription Text:\n${rawText}\n`;
@@ -134,7 +136,7 @@ const ResultsView: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-lg font-medium">{diagnosis}</p>
+                <p className="text-lg font-medium">{estimatedDiagnosis}</p>
               </CardContent>
             </Card>
 
@@ -167,7 +169,7 @@ const ResultsView: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="text-xl">Issues</CardTitle>
                   <CardDescription>
-                    Potential concerns identified
+                    Potential issues with the Prescription
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

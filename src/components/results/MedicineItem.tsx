@@ -146,21 +146,23 @@ const MedicineItem: React.FC<MedicineItemProps> = ({ medicine }) => {
 
           <Separator className="my-4" />
 
-          <div>
-            <h4 className="text-sm font-medium mb-2">
-              Alternative Medications
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {medicine.details.alternatives.map((alt, i) => (
-                <span
-                  key={i}
-                  className="px-2 py-1 bg-secondary text-secondary-foreground rounded-md text-xs"
-                >
-                  {alt}
-                </span>
-              ))}
+          {medicine.details.alternatives.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium mb-2">
+                Alternative Medications
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {medicine.details.alternatives.map((alt, i) => (
+                  <span
+                    key={i}
+                    className="px-2 py-1 bg-secondary text-secondary-foreground rounded-md text-xs"
+                  >
+                    {alt}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

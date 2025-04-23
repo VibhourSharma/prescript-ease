@@ -84,10 +84,8 @@ const MedicineDetails = ({ medicine }: MedicineDetailsProps) => {
       <div className="mt-4 flex items-center gap-2 bg-yellow-50 border border-yellow-200 p-3 rounded-md">
         <AlertCircle className="h-5 w-5 text-yellow-500 shrink-0 mt-0.5" />
         <div className="text-sm text-yellow-800">
-          Disclamer: Drug data is sourced from the openFDA, maintained by the US
-          Food and Drug Administration and is provided for informational
-          purposes only. Always consult a healthcare professional before using
-          any medication.
+          Source: OpenFDA (US FDA). Informational only. Consult a healthcare
+          professional before using any medication.
         </div>
       </div>
     </div>

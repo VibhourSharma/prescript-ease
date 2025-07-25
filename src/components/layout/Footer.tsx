@@ -10,28 +10,28 @@ const Footer: React.FC = () => {
     {
       title: "Company",
       links: [
-        { name: "About", href: "/about" },
-        { name: "Contact", href: "/contact" },
-        { name: "Privacy Policy", href: "/privacy" },
-        { name: "Terms of Service", href: "/terms" },
+        { name: "About", href: "/" },
+        { name: "Contact", href: "/" },
+        { name: "Privacy Policy", href: "/" },
+        { name: "Terms of Service", href: "/" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { name: "Blog", href: "/blog" },
-        { name: "FAQ", href: "/faq" },
-        { name: "Support", href: "/support" },
-        { name: "Documentation", href: "/docs" },
+        { name: "Blog", href: "/" },
+        { name: "FAQ", href: "/" },
+        { name: "Support", href: "/" },
+        { name: "Documentation", href: "/" },
       ],
     },
     {
       title: "Features",
       links: [
         { name: "Prescription Decoder", href: "/upload" },
-        { name: "Medicine Info", href: "/medicine-info" },
-        { name: "Health Tips", href: "/health-tips" },
-        { name: "Dosage Calculator", href: "/dosage-calculator" },
+        { name: "Medicine Info", href: "/" },
+        { name: "Health Tips", href: "/" },
+        { name: "Dosage Calculator", href: "/" },
       ],
     },
   ];
@@ -97,34 +97,18 @@ const Footer: React.FC = () => {
             © {currentYear} PreScriptEase. All rights reserved.
           </p>
           <div className="flex space-x-4 mt-4 sm:mt-0">
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Twitter"
-            >
-              <Twitter className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Facebook"
-            >
-              <Facebook className="h-5 w-5" />
-            </a>
-            <a
-              href="mailto:info@prescriptease.com"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Email"
-            >
-              <Mail className="h-5 w-5" />
-            </a>
+            <span aria-label="GitHub">
+              <Github className="h-5 w-5 cursor-pointer text-muted-foreground hover:text-primary transition-colors" />
+            </span>
+            <span aria-label="Twitter">
+              <Twitter className="h-5 w-5 cursor-pointer text-muted-foreground hover:text-primary transition-colors" />
+            </span>
+            <span aria-label="Facebook">
+              <Facebook className="h-5 w-5 cursor-pointer text-muted-foreground hover:text-primary transition-colors" />
+            </span>
+            <span aria-label="Email">
+              <Mail className="h-5 w-5 cursor-pointer text-muted-foreground hover:text-primary transition-colors" />
+            </span>
           </div>
         </div>
       </div>

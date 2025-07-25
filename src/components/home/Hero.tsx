@@ -36,11 +36,20 @@ const Hero: React.FC = () => {
                   />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link to="/#how-it-works" className="flex items-center gap-2">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                onClick={() =>
+                  document.getElementById("how-it-works")?.scrollIntoView({
+                    behavior: "smooth",
+                  })
+                }
+              >
+                <span className="flex items-center gap-2 cursor-pointer">
                   <FileText size={18} />
                   Learn How It Works
-                </Link>
+                </span>
               </Button>
             </div>
 
